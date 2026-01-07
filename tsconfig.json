@@ -1,0 +1,22 @@
+{
+    "extends": "astro/tsconfigs/strict",
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "jsxImportSource": "react",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "ombres-du-son-web/src/*"
+            ],
+            "@components/*": [
+                "ombres-du-son-web/src/components/*"
+            ],
+            "@layouts/*": [
+                "ombres-du-son-web/src/layouts/*"
+            ],
+            "@styles/*": [
+                "ombres-du-son-web/src/styles/*"
+            ]
+        }
+    }
+}

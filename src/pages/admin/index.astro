@@ -1,0 +1,13 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import AdminDashboard from '@/components/admin/AdminDashboard';
+---
+
+<BaseLayout
+  title="Admin Dashboard - Les Ombres du Son"
+  description="Tableau de bord administrateur"
+>
+  <main class="min-h-screen bg-gray-100">
+    <AdminDashboard client:load />
+  </main>
+</BaseLayout>

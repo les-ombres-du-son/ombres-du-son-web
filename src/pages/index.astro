@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Section0_Intro from '@/components/scroll-experience/Section0_Intro';
+import Section1_VisibleWorld from '@/components/scroll-experience/Section1_VisibleWorld';
+import Section2_VisionScales from '@/components/scroll-experience/Section2_VisionScales';
+import Section3_DailyLife from '@/components/scroll-experience/Section3_DailyLife';
+import Section4_Statistics from '@/components/scroll-experience/Section4_Statistics';
+import Section5_Senses from '@/components/scroll-experience/Section5_Senses';
+import Section6_Technology from '@/components/scroll-experience/Section6_Technology';
+import Section9_CallToAction from '@/components/scroll-experience/Section9_CallToAction';
+---
+
+<BaseLayout>
+  <main class="relative">
+    <Section0_Intro client:load />
+    <Section1_VisibleWorld client:load />
+    <Section2_VisionScales client:load />
+    <Section3_DailyLife client:load />
+    <Section4_Statistics client:load />
+    <Section5_Senses client:load />
+    <Section6_Technology client:load />
+    <Section9_CallToAction client:load />
+  </main>
+</BaseLayout>
