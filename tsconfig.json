@@ -6,16 +6,16 @@
         "baseUrl": ".",
         "paths": {
             "@/*": [
-                "ombres-du-son-web/src/*"
+                "src/*"
             ],
             "@components/*": [
-                "ombres-du-son-web/src/components/*"
+                "src/components/*"
             ],
             "@layouts/*": [
-                "ombres-du-son-web/src/layouts/*"
+                "src/layouts/*"
             ],
             "@styles/*": [
-                "ombres-du-son-web/src/styles/*"
+                "src/styles/*"
             ]
         }
     }

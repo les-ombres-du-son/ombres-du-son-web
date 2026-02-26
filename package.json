@@ -7,10 +7,13 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint": "eslint src --ext .ts,.tsx,.astro",
+    "test": "echo \"No tests configured yet\" && exit 0"
   },
   "dependencies": {
     "astro": "^4.16.18",
+    "@astrojs/node": "^8.3.4",
     "@astrojs/react": "^3.6.2",
     "@astrojs/tailwind": "^5.1.2",
     "react": "^18.3.1",
