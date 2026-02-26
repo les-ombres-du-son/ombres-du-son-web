@@ -40,12 +40,3 @@ jobs:
           env_vars: |
             NODE_ENV=staging
       
-      - name: Notify team
-        uses: 8398a7/action-slack@v3
-        if: always()
-        with:
-          status: ${{ job.status }}
-          text: 'Déploiement staging terminé'
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

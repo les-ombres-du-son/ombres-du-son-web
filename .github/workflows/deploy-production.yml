@@ -50,12 +50,3 @@ jobs:
           draft: false
           prerelease: false
       
-      - name: Notify team
-        uses: 8398a7/action-slack@v3
-        if: always()
-        with:
-          status: ${{ job.status }}
-          text: '🚀 Déploiement production terminé !'
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
