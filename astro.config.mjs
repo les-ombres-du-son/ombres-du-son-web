@@ -15,6 +15,14 @@ export default defineConfig({
         inlineStylesheets: 'auto',
     },
     vite: {
+        resolve: {
+            alias: {
+                '@': '/src',
+                '@components': '/src/components',
+                '@layouts': '/src/layouts',
+                '@styles': '/src/styles',
+            },
+        },
         ssr: {
             noExternal: ['gsap'],
         },
