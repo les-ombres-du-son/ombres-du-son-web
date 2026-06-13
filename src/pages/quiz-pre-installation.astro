@@ -1,18 +1,28 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import QuizAuth from '../components/QuizAuth';
 ---
 
-<Layout title="Quiz de Sensibilisation - Les Ombres du Son">
+<BaseLayout title="Quiz de Sensibilisation - Les Ombres du Son">
   <main class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
     <div class="container mx-auto px-4 py-12">
       <!-- Header -->
       <div class="text-center mb-12">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6"
+        >
+          <svg class="w-5 h-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+            <path d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Retour à l'accueil
+        </a>
+        
         <h1 class="text-4xl md:text-5xl font-bold mb-4">
           Quiz de Sensibilisation
         </h1>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-          Avant de télécharger l'application "Les Ombres du Son", testez vos connaissances sur le handicap visuel.
+          Testez vos connaissances sur le handicap visuel avant de télécharger l'application.
           Ce quiz nous permettra de mesurer l'impact pédagogique du jeu.
         </p>
       </div>
@@ -77,7 +87,7 @@ import QuizAuth from '../components/QuizAuth';
       </div>
     </div>
   </main>
-</Layout>
+</BaseLayout>
 
 <script>
   // Quiz data
@@ -152,21 +162,20 @@ import QuizAuth from '../components/QuizAuth';
 
   // State
   let currentQuestionIndex = 0;
-  let userAnswers = [];
-  let selectedChoice = null;
+  let userAnswers: number[] = [];
+  let selectedChoice: number | null = null;
 
   // DOM elements
-  const questionCard = document.getElementById('question-card');
-  const questionText = document.getElementById('question-text');
-  const choicesContainer = document.getElementById('choices-container');
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
-  const progressBar = document.getElementById('progress-bar');
-  const progressPercent = document.getElementById('progress-percent');
-  const currentQuestionSpan = document.getElementById('current-question');
-  const quizContainer = document.getElementById('quiz-container');
-  const resultsScreen = document.getElementById('results-screen');
-  const scoreSpan = document.getElementById('score');
+  const questionText = document.getElementById('question-text') as HTMLElement;
+  const choicesContainer = document.getElementById('choices-container') as HTMLElement;
+  const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
+  const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
+  const progressBar = document.getElementById('progress-bar') as HTMLElement;
+  const progressPercent = document.getElementById('progress-percent') as HTMLElement;
+  const currentQuestionSpan = document.getElementById('current-question') as HTMLElement;
+  const quizContainer = document.getElementById('quiz-container') as HTMLElement;
+  const resultsScreen = document.getElementById('results-screen') as HTMLElement;
+  const scoreSpan = document.getElementById('score') as HTMLElement;
 
   // Initialize quiz
   function initQuiz() {
@@ -207,7 +216,7 @@ import QuizAuth from '../components/QuizAuth';
   }
 
   // Select a choice
-  function selectChoice(index, button) {
+  function selectChoice(index: number, button: HTMLButtonElement) {
     selectedChoice = index;
     userAnswers[currentQuestionIndex] = index;
     
@@ -228,8 +237,8 @@ import QuizAuth from '../components/QuizAuth';
   function updateProgress() {
     const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
     progressBar.style.width = `${progress}%`;
-    progressPercent.textContent = Math.round(progress);
-    currentQuestionSpan.textContent = currentQuestionIndex + 1;
+    progressPercent.textContent = Math.round(progress).toString();
+    currentQuestionSpan.textContent = (currentQuestionIndex + 1).toString();
   }
 
   // Update navigation buttons
@@ -290,6 +299,7 @@ import QuizAuth from '../components/QuizAuth';
     };
     
     sessionStorage.setItem('quizResults', JSON.stringify(quizResults));
+    sessionStorage.setItem('quizJustCompleted', 'true');
     
     // Pass results to React component
     const authContainer = document.getElementById('auth-container');
@@ -297,6 +307,22 @@ import QuizAuth from '../components/QuizAuth';
       // Trigger React component update with results
       window.dispatchEvent(new CustomEvent('quizCompleted', { detail: quizResults }));
     }
+    
+    // Check if user is already logged in - if so, redirect to dashboard after a short delay
+    // The QuizAuth component will handle the save and show the redirect button
+    // But if already logged in, we redirect automatically
+    const checkAuthAndRedirect = setInterval(() => {
+      // Check if the user just logged in (QuizAuth will set this flag after saving)
+      if (sessionStorage.getItem('quizSaved') === 'true') {
+        clearInterval(checkAuthAndRedirect);
+        window.location.href = '/dashboard';
+      }
+    }, 500);
+    
+    // Timeout after 10 seconds if no redirect happened (user not logged in yet)
+    setTimeout(() => {
+      clearInterval(checkAuthAndRedirect);
+    }, 10000);
   }
 
   // Event listeners

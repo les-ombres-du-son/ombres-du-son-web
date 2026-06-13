@@ -34,6 +34,11 @@ export default function QuizAuth({ quizResults: initialResults }: QuizAuthProps)
     if (storedResults) {
       setQuizResults(JSON.parse(storedResults));
     }
+    
+    // Clean up flags on mount (new quiz session)
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('quizSaved');
+    }
 
     return () => {
       window.removeEventListener('quizCompleted', handleQuizCompleted as EventListener);
@@ -63,8 +68,22 @@ export default function QuizAuth({ quizResults: initialResults }: QuizAuthProps)
         await saveQuizResults(result.user);
       }
     } catch (err: any) {
-      console.error('Error signing in:', err);
-      setError(err.message || 'Erreur lors de la connexion');
+      // Gestion spécifique des erreurs
+      let errorMessage = 'Erreur lors de la connexion';
+      
+      if (err.code === 'auth/popup-blocked') {
+        errorMessage = 'Le popup de connexion a été bloqué. Veuillez autoriser les popups pour ce site.';
+      } else if (err.code === 'auth/popup-closed-by-user') {
+        errorMessage = 'Vous avez fermé la fenêtre de connexion.';
+      } else if (err.code === 'auth/unauthorized-domain') {
+        errorMessage = 'Ce domaine n\'est pas autorisé. Contactez l\'administrateur.';
+      } else if (err.code === 'auth/cancelled-popup-request') {
+        errorMessage = 'Une autre tentative de connexion est en cours.';
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -74,22 +93,41 @@ export default function QuizAuth({ quizResults: initialResults }: QuizAuthProps)
     if (!quizResults || saved) return;
 
     try {
+      if (!auth.currentUser) {
+        throw new Error('User not authenticated');
+      }
+      
       const quizRef = doc(db, 'quiz_pre_installation', currentUser.uid);
-      await setDoc(quizRef, {
+      const quizData = {
         userId: currentUser.uid,
         email: currentUser.email,
         displayName: currentUser.displayName,
+        userName: currentUser.displayName,
         answers: quizResults.answers,
         score: quizResults.score,
         total: quizResults.total,
+        totalQuestions: quizResults.total,
         timestamp: quizResults.timestamp,
-        completedAt: serverTimestamp()
-      });
+        completedAt: serverTimestamp(),
+        createdAt: serverTimestamp()
+      };
+      
+      await setDoc(quizRef, quizData);
+      
+      // Verify save worked
+      const { getDoc } = await import('firebase/firestore');
+      await getDoc(quizRef);
       
       setSaved(true);
-    } catch (err) {
-      console.error('Error saving quiz results:', err);
-      setError('Erreur lors de la sauvegarde des résultats');
+      
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('quizSaved', 'true');
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 2000);
+      }
+    } catch (err: any) {
+      setError(`Erreur sauvegarde: ${err.message || 'inconnue'}`);
     }
   };
 
@@ -106,27 +144,28 @@ export default function QuizAuth({ quizResults: initialResults }: QuizAuthProps)
           </div>
         </div>
 
-        {saved && (
+        {saved ? (
+          <div className="space-y-4">
+            <div className="p-4 bg-green-900/30 border border-green-500 rounded-lg text-center">
+              <p className="text-green-300 font-semibold mb-2">✓ Quiz complété avec succès !</p>
+              <p className="text-sm text-gray-300">Vos réponses ont été enregistrées</p>
+              <p className="text-sm text-primary mt-2">Redirection vers le téléchargement...</p>
+            </div>
+            
+            <div className="text-center">
+              <a
+                href="/dashboard"
+                className="inline-block px-8 py-4 bg-primary hover:bg-primary/80 rounded-lg font-semibold text-xl transition-colors"
+              >
+                Accéder au téléchargement →
+              </a>
+            </div>
+          </div>
+        ) : (
           <div className="p-4 bg-blue-900/30 border border-blue-500 rounded-lg text-center">
-            <p className="text-blue-300">✓ Vos réponses ont été enregistrées avec succès</p>
+            <p className="text-blue-300">Enregistrement en cours...</p>
           </div>
         )}
-
-        <div className="text-center">
-          <a
-            href={import.meta.env.PUBLIC_APK_DOWNLOAD_URL || '#'}
-            download
-            className="inline-block px-8 py-4 bg-green-600 hover:bg-green-500 rounded-lg font-semibold text-xl transition-colors"
-          >
-            📱 Télécharger l'Application
-          </a>
-          <p className="text-sm text-gray-400 mt-4">
-            Format APK - Compatible Android 8.0+
-          </p>
-          <p className="text-xs text-gray-500 mt-2">
-            Après avoir joué, vous pourrez comparer vos résultats avant/après
-          </p>
-        </div>
       </div>
     );
   }
