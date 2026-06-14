@@ -15,7 +15,7 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: production
-      url: https://les-ombres-du-son.app
+      url: https://ombres-du-son-web-production-7vvww4z7ra-ew.a.run.app
     
     steps:
       - name: Checkout main
