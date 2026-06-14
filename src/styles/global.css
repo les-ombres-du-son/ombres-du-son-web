@@ -33,7 +33,6 @@
 
   /* Respect user's motion preferences */
   @media (prefers-reduced-motion: reduce) {
-
     *,
     *::before,
     *::after {
@@ -61,7 +60,6 @@
 }
 
 @layer components {
-
   /* Section container */
   .section {
     @apply min-h-screen w-full flex items-center justify-center;
@@ -119,7 +117,6 @@
 }
 
 @layer utilities {
-
   /* Text gradient */
   .text-gradient {
     @apply bg-gradient-to-r from-primary via-accent to-secondary;
