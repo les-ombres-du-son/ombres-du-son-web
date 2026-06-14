@@ -6,6 +6,9 @@ on:
     branches: [staging]
     types: [completed]
 
+permissions:
+  contents: write
+
 jobs:
   promote:
     name: Merge staging into main

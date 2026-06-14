@@ -6,6 +6,9 @@ on:
     branches: [develop]
     types: [completed]
 
+permissions:
+  contents: write
+
 jobs:
   promote:
     name: Merge develop into staging

@@ -1,20 +1,27 @@
 name: Deploy to Production
 
 on:
-  push:
-    branches: [main]
+  workflow_run:
+    workflows: ["Promote staging → main"]
+    types: [completed]
+
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
     name: Build & Deploy to Production
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: production
       url: https://les-ombres-du-son.app
     
     steps:
-      - name: Checkout code
+      - name: Checkout main
         uses: actions/checkout@v4
+        with:
+          ref: main
       
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
