@@ -1,5 +1,10 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, setPersistence, browserLocalPersistence } from 'firebase/auth';
+import {
+  getAuth,
+  GoogleAuthProvider,
+  setPersistence,
+  browserLocalPersistence,
+} from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getDatabase } from 'firebase/database';
 
@@ -8,12 +13,15 @@ import { getDatabase } from 'firebase/database';
 // Realtime Database : active_sessions, sessions temps réel
 const firebaseConfig = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY || 'AIzaSyDwcZ7n7ZyrFx22Iihg5esVBE5j9GbPJy8',
-  authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN || 'les-ombres-du-son-483614.firebaseapp.com',
+  authDomain:
+    import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN || 'les-ombres-du-son-483614.firebaseapp.com',
   databaseURL: 'https://les-ombres-du-son-483614-default-rtdb.europe-west1.firebasedatabase.app',
   projectId: 'les-ombres-du-son-483614',
-  storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET || 'les-ombres-du-son-483614.firebasestorage.app',
+  storageBucket:
+    import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET ||
+    'les-ombres-du-son-483614.firebasestorage.app',
   messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID || '346375999456',
-  appId: import.meta.env.PUBLIC_FIREBASE_APP_ID || '1:346375999456:web:a55854253619c92070e585'
+  appId: import.meta.env.PUBLIC_FIREBASE_APP_ID || '1:346375999456:web:a55854253619c92070e585',
 };
 
 export const app = initializeApp(firebaseConfig);
@@ -29,5 +37,5 @@ export const rtdb = getDatabase(app); // Realtime Database (service différent)
 // Configure Google Auth Provider
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
-  prompt: 'select_account'
+  prompt: 'select_account',
 });

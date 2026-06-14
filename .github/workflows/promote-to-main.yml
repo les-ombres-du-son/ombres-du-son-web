@@ -1,0 +1,37 @@
+name: Promote staging → main
+
+on:
+  workflow_run:
+    workflows: ["Deploy to Staging"]
+    branches: [staging]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    name: Merge staging into main
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    environment:
+      name: production
+      url: https://les-ombres-du-son.app
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Merge staging into main
+        run: |
+          git checkout main
+          git merge origin/staging --no-ff -m "ci: promote staging → main [auto]"
+          git push origin main

@@ -1,42 +1,37 @@
 name: Deploy to Staging
 
 on:
-  push:
-    branches: [staging]
+  workflow_run:
+    workflows: ["Promote develop → staging"]
+    types: [completed]
 
 jobs:
   build-and-deploy:
     name: Build & Deploy to Staging
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: staging
       url: https://staging.les-ombres-du-son.app
     
     steps:
-      - name: Checkout code
+      - name: Checkout staging
         uses: actions/checkout@v4
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          ref: staging
       
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Build for production
-        run: npm run build
-        env:
-          NODE_ENV: production
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
       
       - name: Deploy to Cloud Run (Staging)
         uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: ombres-du-son-web-staging
           region: europe-west1
-          source: ./dist
-          credentials: ${{ secrets.GCP_SA_KEY }}
+          source: .
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
           env_vars: |
             NODE_ENV=staging
       

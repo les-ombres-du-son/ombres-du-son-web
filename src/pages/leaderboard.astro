@@ -16,28 +16,42 @@ import LeaderboardAuth from '@/components/leaderboard/LeaderboardAuth';
             href="/"
             class="inline-flex items-center gap-2 text-gray-600 hover:text-primary transition-colors"
           >
-            <svg class="w-5 h-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path d="M15 19l-7-7 7-7"></path>
             </svg>
             Retour à l'expérience
           </a>
-          
+
           <span class="text-gray-400">|</span>
-          
+
           <a
             href="/dashboard"
             class="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-medium"
           >
-            <svg class="w-5 h-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
               <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
             </svg>
             Retour à mon espace
           </a>
         </div>
 
-        <h1 class="display-text text-display-sm md:text-display-md mb-4">
-          🏆 Classements
-        </h1>
+        <h1 class="display-text text-display-sm md:text-display-md mb-4">🏆 Classements</h1>
         <p class="body-text text-body-lg text-gray-600 max-w-2xl mx-auto">
           Découvrez les meilleurs joueurs et leurs performances
         </p>
@@ -53,7 +67,7 @@ import LeaderboardAuth from '@/components/leaderboard/LeaderboardAuth';
   // Hide header when user is not authenticated
   import { onAuthStateChanged } from 'firebase/auth';
   import { auth } from '../lib/firebase';
-  
+
   onAuthStateChanged(auth, (user) => {
     const header = document.getElementById('leaderboard-header');
     if (header) {

@@ -1,34 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const downloadUrl = 'https://storage.googleapis.com/les-ombres-du-son-483614-mobile-releases/releases/les-ombres-du-son-latest.apk';
+const downloadUrl =
+  'https://storage.googleapis.com/les-ombres-du-son-483614-mobile-releases/releases/les-ombres-du-son-latest.apk';
 ---
 
 <BaseLayout title="Télécharger l'application - Les Ombres du Son">
   <main class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
     <div class="container mx-auto px-4 py-16 max-w-4xl">
-      
       <!-- Header -->
       <div class="text-center mb-12">
         <a href="/" class="inline-block mb-8 text-gray-400 hover:text-white transition-colors">
           &larr; Retour à l'accueil
         </a>
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">
-          Télécharger l'application
-        </h1>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Télécharger l'application</h1>
         <p class="text-xl text-gray-300 max-w-2xl mx-auto">
-          Explorez le monde à travers les yeux de ceux qui ne voient pas. 
-          Téléchargez Les Ombres du Son sur votre appareil Android.
+          Explorez le monde à travers les yeux de ceux qui ne voient pas. Téléchargez Les Ombres du
+          Son sur votre appareil Android.
         </p>
       </div>
 
       <!-- Download Card -->
-      <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8 md:p-12 text-center max-w-2xl mx-auto">
-        
+      <div
+        class="bg-gray-800/50 border border-gray-700 rounded-2xl p-8 md:p-12 text-center max-w-2xl mx-auto"
+      >
         <!-- App Icon -->
-        <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+        <div
+          class="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg"
+        >
           <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"
+            ></path>
           </svg>
         </div>
 
@@ -36,48 +42,69 @@ const downloadUrl = 'https://storage.googleapis.com/les-ombres-du-son-483614-mob
         <p class="text-gray-400 mb-8">Application Android</p>
 
         <!-- Download Button -->
-        <a 
+        <a
           href={downloadUrl}
           class="inline-flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold px-8 py-4 rounded-xl text-lg transition-all duration-200 shadow-lg hover:shadow-indigo-500/25 hover:scale-105"
           download
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
           </svg>
           Télécharger l'APK
         </a>
 
-        <p class="text-sm text-gray-500 mt-4">
-          Dernière version &bull; Android 8.0+
-        </p>
+        <p class="text-sm text-gray-500 mt-4">Dernière version &bull; Android 8.0+</p>
       </div>
 
       <!-- Installation Guide -->
       <div class="mt-12 max-w-2xl mx-auto">
         <h3 class="text-xl font-semibold mb-6 text-center">Comment installer l'application</h3>
-        
+
         <div class="space-y-4">
           <div class="flex gap-4 items-start">
-            <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">1</div>
+            <div
+              class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold"
+            >
+              1
+            </div>
             <div>
               <p class="font-medium">Téléchargez le fichier APK</p>
-              <p class="text-gray-400 text-sm">Cliquez sur le bouton ci-dessus pour télécharger le fichier.</p>
+              <p class="text-gray-400 text-sm">
+                Cliquez sur le bouton ci-dessus pour télécharger le fichier.
+              </p>
             </div>
           </div>
-          
+
           <div class="flex gap-4 items-start">
-            <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">2</div>
+            <div
+              class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold"
+            >
+              2
+            </div>
             <div>
               <p class="font-medium">Autorisez les sources inconnues</p>
-              <p class="text-gray-400 text-sm">Allez dans Paramètres &gt; Sécurité &gt; Activez "Sources inconnues" ou autorisez votre navigateur à installer des applications.</p>
+              <p class="text-gray-400 text-sm">
+                Allez dans Paramètres &gt; Sécurité &gt; Activez "Sources inconnues" ou autorisez
+                votre navigateur à installer des applications.
+              </p>
             </div>
           </div>
-          
+
           <div class="flex gap-4 items-start">
-            <div class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold">3</div>
+            <div
+              class="flex-shrink-0 w-8 h-8 bg-indigo-600 rounded-full flex items-center justify-center text-sm font-bold"
+            >
+              3
+            </div>
             <div>
               <p class="font-medium">Installez l'application</p>
-              <p class="text-gray-400 text-sm">Ouvrez le fichier APK téléchargé et suivez les instructions d'installation.</p>
+              <p class="text-gray-400 text-sm">
+                Ouvrez le fichier APK téléchargé et suivez les instructions d'installation.
+              </p>
             </div>
           </div>
         </div>
@@ -88,7 +115,6 @@ const downloadUrl = 'https://storage.googleapis.com/les-ombres-du-son-483614-mob
         <p>L'application est automatiquement mise à jour à chaque nouvelle version.</p>
         <p class="mt-1">Le lien pointe toujours vers la dernière version disponible.</p>
       </div>
-
     </div>
   </main>
 </BaseLayout>
