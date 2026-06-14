@@ -1,0 +1,384 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import QuizAuth from '../components/QuizAuth';
+---
+
+<BaseLayout title="Quiz de Sensibilisation - Les Ombres du Son">
+  <main class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+    <div class="container mx-auto px-4 py-12">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M15 19l-7-7 7-7"></path>
+          </svg>
+          Retour à l'accueil
+        </a>
+
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Quiz de Sensibilisation</h1>
+        <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+          Testez vos connaissances sur le handicap visuel avant de télécharger l'application. Ce
+          quiz nous permettra de mesurer l'impact pédagogique du jeu.
+        </p>
+      </div>
+
+      <!-- Quiz Container -->
+      <div id="quiz-container" class="max-w-3xl mx-auto">
+        <!-- Progress Bar -->
+        <div class="mb-8">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm text-gray-400"
+              >Question <span id="current-question">1</span> sur 6</span
+            >
+            <span class="text-sm text-gray-400"><span id="progress-percent">0</span>%</span>
+          </div>
+          <div class="w-full bg-gray-700 rounded-full h-2">
+            <div
+              id="progress-bar"
+              class="bg-blue-500 h-2 rounded-full transition-all duration-300"
+              style="width: 0%"
+            >
+            </div>
+          </div>
+        </div>
+
+        <!-- Question Card -->
+        <div id="question-card" class="bg-gray-800 rounded-lg p-8 shadow-xl mb-6">
+          <h2 id="question-text" class="text-2xl font-semibold mb-6"></h2>
+
+          <div id="choices-container" class="space-y-4">
+            <!-- Choices will be inserted here by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between items-center">
+          <button
+            id="prev-btn"
+            class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            ← Précédent
+          </button>
+          <button
+            id="next-btn"
+            class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            Suivant →
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Screen (hidden initially) -->
+      <div id="results-screen" class="max-w-3xl mx-auto hidden">
+        <div class="bg-gray-800 rounded-lg p-8 shadow-xl text-center">
+          <h2 class="text-3xl font-bold mb-6">Quiz Terminé !</h2>
+          <p class="text-xl mb-4">
+            Votre score : <span id="score" class="text-blue-400 font-bold"></span>
+          </p>
+          <p class="text-gray-300 mb-8">
+            Merci d'avoir répondu à ce quiz. Vos réponses nous aideront à mesurer l'impact
+            pédagogique du jeu.
+          </p>
+
+          <!-- Auth Component -->
+          <div id="auth-container">
+            <QuizAuth client:only="react" quizResults={null} />
+          </div>
+
+          <!-- Legal Links -->
+          <div class="mt-8 pt-6 border-t border-gray-700">
+            <p class="text-sm text-gray-400">
+              En téléchargeant l'application, vous acceptez notre
+              <a href="/politique-confidentialite" class="text-blue-400 hover:underline"
+                >Politique de Confidentialité</a
+              >
+              et nos
+              <a href="/mentions-legales" class="text-blue-400 hover:underline">Mentions Légales</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  // Quiz data
+  const quizData = [
+    {
+      id: 1,
+      theme: 'communication',
+      question:
+        "Selon vous, pourquoi interrompre une personne non-voyante pendant qu'elle écoute quelque chose est-il problématique ?",
+      choices: [
+        'Parce que la cécité provoque une hypersensibilité médicale aux bruits',
+        "Parce que l'ouïe est son principal moyen de percevoir l'environnement",
+        "Parce qu'elle doit mémoriser deux fois plus d'informations orales",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      id: 2,
+      theme: 'urban_noise',
+      question:
+        "Quel est l'impact principal d'un environnement urbain très bruyant pour une personne non-voyante ?",
+      choices: [
+        'Elle ne peut plus utiliser sa canne blanche',
+        "Le bruit masque les repères sonores nécessaires pour s'orienter",
+        'Les feux sonores se désactivent automatiquement',
+      ],
+      correctAnswer: 1,
+    },
+    {
+      id: 3,
+      theme: 'guidance',
+      question: 'Comment devriez-vous aider une personne non-voyante qui attend pour traverser ?',
+      choices: [
+        'Appuyer sur le bouton du feu à sa place',
+        'La prévenir des dangers de la circulation',
+        "Lui demander oralement d'abord si elle a besoin d'aide",
+      ],
+      correctAnswer: 2,
+    },
+    {
+      id: 4,
+      theme: 'accessibility',
+      question: 'Quel aménagement simple rend un bâtiment accessible aux personnes malvoyantes ?',
+      choices: [
+        'Des plaques en braille sur les portes',
+        "Mémoriser le nombre de portes depuis l'entrée",
+        "Une application GPS d'intérieur",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      id: 5,
+      theme: 'digital',
+      question:
+        'Pourquoi certains sites internet sont-ils inaccessibles aux personnes non-voyantes ?',
+      choices: [
+        "Les boutons et images n'ont pas de description textuelle",
+        'Il faut un téléphone spécifique très coûteux',
+        "Les sites n'ont pas de commande vocale",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      id: 6,
+      theme: 'inclusion',
+      question: "Selon vous, qu'est-ce que l'inclusion face au handicap visuel ?",
+      choices: [
+        'Traiter tout le monde de manière strictement identique',
+        "Adapter l'environnement pour garantir l'autonomie de chacun",
+        'Faire les choses à la place des personnes malvoyantes',
+      ],
+      correctAnswer: 1,
+    },
+  ];
+
+  // State
+  let currentQuestionIndex = 0;
+  const userAnswers: number[] = [];
+  let selectedChoice: number | null = null;
+
+  // DOM elements
+  const questionText = document.getElementById('question-text') as HTMLElement;
+  const choicesContainer = document.getElementById('choices-container') as HTMLElement;
+  const prevBtn = document.getElementById('prev-btn') as HTMLButtonElement;
+  const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
+  const progressBar = document.getElementById('progress-bar') as HTMLElement;
+  const progressPercent = document.getElementById('progress-percent') as HTMLElement;
+  const currentQuestionSpan = document.getElementById('current-question') as HTMLElement;
+  const quizContainer = document.getElementById('quiz-container') as HTMLElement;
+  const resultsScreen = document.getElementById('results-screen') as HTMLElement;
+  const scoreSpan = document.getElementById('score') as HTMLElement;
+
+  // Initialize quiz
+  function initQuiz() {
+    displayQuestion();
+  }
+
+  // Display current question
+  function displayQuestion() {
+    const question = quizData[currentQuestionIndex];
+    questionText.textContent = question.question;
+
+    // Clear previous choices
+    choicesContainer.innerHTML = '';
+
+    // Create choice buttons
+    question.choices.forEach((choice, index) => {
+      const button = document.createElement('button');
+      button.className =
+        'w-full text-left p-4 rounded-lg border-2 border-gray-700 hover:border-blue-500 transition-colors';
+      button.innerHTML = `
+        <span class="font-semibold">${String.fromCharCode(65 + index)})</span> ${choice}
+      `;
+
+      // Check if this choice was previously selected
+      if (userAnswers[currentQuestionIndex] === index) {
+        button.classList.add('border-blue-500', 'bg-blue-900/30');
+        selectedChoice = index;
+      }
+
+      button.addEventListener('click', () => selectChoice(index, button));
+      choicesContainer.appendChild(button);
+    });
+
+    // Update progress
+    updateProgress();
+
+    // Update navigation buttons
+    updateNavButtons();
+  }
+
+  // Select a choice
+  function selectChoice(index: number, button: HTMLButtonElement) {
+    selectedChoice = index;
+    userAnswers[currentQuestionIndex] = index;
+
+    // Remove selection from all buttons
+    const allButtons = choicesContainer.querySelectorAll('button');
+    allButtons.forEach((btn) => {
+      btn.classList.remove('border-blue-500', 'bg-blue-900/30');
+    });
+
+    // Add selection to clicked button
+    button.classList.add('border-blue-500', 'bg-blue-900/30');
+
+    // Enable next button
+    nextBtn.disabled = false;
+  }
+
+  // Update progress bar
+  function updateProgress() {
+    const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+    progressBar.style.width = `${progress}%`;
+    progressPercent.textContent = Math.round(progress).toString();
+    currentQuestionSpan.textContent = (currentQuestionIndex + 1).toString();
+  }
+
+  // Update navigation buttons
+  function updateNavButtons() {
+    prevBtn.disabled = currentQuestionIndex === 0;
+    nextBtn.disabled = selectedChoice === null && userAnswers[currentQuestionIndex] === undefined;
+
+    if (currentQuestionIndex === quizData.length - 1) {
+      nextBtn.textContent = 'Terminer';
+    } else {
+      nextBtn.textContent = 'Suivant →';
+    }
+  }
+
+  // Next question
+  function nextQuestion() {
+    if (currentQuestionIndex < quizData.length - 1) {
+      currentQuestionIndex++;
+      selectedChoice = userAnswers[currentQuestionIndex] ?? null;
+      displayQuestion();
+    } else {
+      showResults();
+    }
+  }
+
+  // Previous question
+  function prevQuestion() {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      selectedChoice = userAnswers[currentQuestionIndex] ?? null;
+      displayQuestion();
+    }
+  }
+
+  // Show results
+  function showResults() {
+    // Calculate score
+    let correctCount = 0;
+    quizData.forEach((question, index) => {
+      if (userAnswers[index] === question.correctAnswer) {
+        correctCount++;
+      }
+    });
+
+    const score = `${correctCount} / ${quizData.length}`;
+    scoreSpan.textContent = score;
+
+    // Hide quiz, show results
+    quizContainer.classList.add('hidden');
+    resultsScreen.classList.remove('hidden');
+
+    // Store results for React component
+    const quizResults = {
+      answers: userAnswers,
+      score: correctCount,
+      total: quizData.length,
+      timestamp: Date.now(),
+    };
+
+    sessionStorage.setItem('quizResults', JSON.stringify(quizResults));
+    sessionStorage.setItem('quizJustCompleted', 'true');
+
+    // Pass results to React component
+    const authContainer = document.getElementById('auth-container');
+    if (authContainer) {
+      // Trigger React component update with results
+      window.dispatchEvent(new CustomEvent('quizCompleted', { detail: quizResults }));
+    }
+
+    // Check if user is already logged in - if so, redirect to dashboard after a short delay
+    // The QuizAuth component will handle the save and show the redirect button
+    // But if already logged in, we redirect automatically
+    const checkAuthAndRedirect = setInterval(() => {
+      // Check if the user just logged in (QuizAuth will set this flag after saving)
+      if (sessionStorage.getItem('quizSaved') === 'true') {
+        clearInterval(checkAuthAndRedirect);
+        window.location.href = '/dashboard';
+      }
+    }, 500);
+
+    // Timeout after 10 seconds if no redirect happened (user not logged in yet)
+    setTimeout(() => {
+      clearInterval(checkAuthAndRedirect);
+    }, 10000);
+  }
+
+  // Event listeners
+  nextBtn.addEventListener('click', nextQuestion);
+  prevBtn.addEventListener('click', prevQuestion);
+
+  // Initialize on page load
+  initQuiz();
+</script>
+
+<style>
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1f2937;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #4b5563;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+  }
+</style>

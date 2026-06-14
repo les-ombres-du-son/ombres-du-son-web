@@ -1,0 +1,10 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import DashboardContent from '@/components/DashboardContent';
+---
+
+<BaseLayout title="Mon Espace - Les Ombres du Son">
+  <main class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+    <DashboardContent client:only="react" />
+  </main>
+</BaseLayout>

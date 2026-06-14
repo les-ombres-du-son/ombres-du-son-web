@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Quiz pré-installation - Chaque utilisateur peut lire/écrire uniquement ses propres données
+    match /quiz_pre_installation/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Quiz final (après le jeu) - Chaque utilisateur peut lire/écrire uniquement ses propres données
+    match /quiz_final/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Statistiques globales (lecture seule pour tous les utilisateurs authentifiés)
+    match /statistics/{document=**} {
+      allow read: if request.auth != null;
+      allow write: if false; // Seules les Cloud Functions peuvent écrire
+    }
+  }
+}
