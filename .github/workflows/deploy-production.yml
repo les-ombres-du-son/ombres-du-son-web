@@ -4,6 +4,7 @@ on:
   workflow_run:
     workflows: ["Promote staging → main"]
     types: [completed]
+  workflow_dispatch:
 
 permissions:
   contents: write
