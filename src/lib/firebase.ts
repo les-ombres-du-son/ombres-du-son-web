@@ -13,8 +13,8 @@ import { getDatabase } from 'firebase/database';
 // Realtime Database : active_sessions, sessions temps réel
 const firebaseConfig = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY || 'AIzaSyDwcZ7n7ZyrFx22Iihg5esVBE5j9GbPJy8',
-  // Force firebaseapp.com domain for auth to avoid unauthorized domain errors on Cloud Run URLs
-  authDomain: 'les-ombres-du-son-483614.firebaseapp.com',
+  authDomain:
+    import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN || 'les-ombres-du-son-483614.firebaseapp.com',
   databaseURL: 'https://les-ombres-du-son-483614-default-rtdb.europe-west1.firebasedatabase.app',
   projectId: 'les-ombres-du-son-483614',
   storageBucket:
