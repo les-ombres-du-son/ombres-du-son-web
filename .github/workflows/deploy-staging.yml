@@ -34,4 +34,12 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           env_vars: |
             NODE_ENV=staging
+
+      - name: Make service public
+        run: |
+          gcloud run services add-iam-policy-binding ombres-du-son-web-staging \
+            --region=europe-west1 \
+            --project=${{ secrets.GCP_PROJECT_ID }} \
+            --member="allUsers" \
+            --role="roles/run.invoker" || true
       
