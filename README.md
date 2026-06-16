@@ -1,6 +1,16 @@
-# Les Ombres du Son
+# Les Ombres du Son — Site Web
 
-Site web interactif de sensibilisation au handicap visuel, développé avec Astro et déployé sur Google Cloud Platform.
+Site web interactif de sensibilisation au handicap visuel, développé avec Astro et déployé sur Google Cloud Platform (Cloud Run).
+
+## 🌐 Site en production
+
+**👉 [https://ombres-du-son-web-production-346375999456.europe-west1.run.app](https://ombres-du-son-web-production-346375999456.europe-west1.run.app)**
+
+| Environnement | URL |
+|---------------|-----|
+| **Production** | https://ombres-du-son-web-production-346375999456.europe-west1.run.app |
+| **Staging** | https://ombres-du-son-web-staging-7vvww4z7ra-ew.a.run.app |
+| **Local** | http://localhost:4321 |
 
 ## 🚀 Démarrage rapide
 
@@ -79,7 +89,24 @@ Design 100% responsive :
 
 ## 🚢 Déploiement
 
-Le déploiement sur GCP sera automatisé via Terraform (configuration à venir).
+Le déploiement est automatisé via **GitHub Actions** vers **Google Cloud Run** :
+
+| Branche | Environnement | Workflow |
+|---------|---------------|----------|
+| `develop` | (dev) | build & checks |
+| `staging` | Staging | déploiement automatique sur Cloud Run staging |
+| `main` | Production | déploiement automatique sur Cloud Run production |
+
+L'infrastructure (GCP, Firebase, organisation GitHub) est gérée par Terraform dans le dépôt
+[`infrastructure`](https://github.com/les-ombres-du-son/infrastructure). Les workflows partagés
+et la documentation des secrets CI/CD sont dans le dépôt
+[`.github`](https://github.com/les-ombres-du-son/.github).
+
+### Authentification Firebase
+
+L'authentification Google nécessite que le domaine soit listé dans
+**Firebase Console → Authentication → Settings → Authorized domains**.
+Les domaines Cloud Run (production, staging) et `*.firebaseapp.com` y sont déclarés.
 
 ## 📄 Licence
 
