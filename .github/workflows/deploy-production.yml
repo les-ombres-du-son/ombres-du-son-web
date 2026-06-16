@@ -13,7 +13,7 @@ jobs:
   build-and-deploy:
     name: Build & Deploy to Production
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: production
       url: https://ombres-du-son-web-production-7vvww4z7ra-ew.a.run.app
