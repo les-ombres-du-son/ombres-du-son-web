@@ -16,7 +16,7 @@ jobs:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     environment:
       name: production
-      url: https://ombres-du-son-web-production-7vvww4z7ra-ew.a.run.app
+      url: https://ombres-du-son-web-production-346375999456.europe-west1.run.app
     
     steps:
       - name: Checkout main
@@ -38,7 +38,15 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           env_vars: |
             NODE_ENV=production
-      
+
+      - name: Make service public
+        run: |
+          gcloud run services add-iam-policy-binding ombres-du-son-web-production \
+            --region=europe-west1 \
+            --project=${{ secrets.GCP_PROJECT_ID }} \
+            --member="allUsers" \
+            --role="roles/run.invoker" || true
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         env:
