@@ -12,7 +12,7 @@ import { getDatabase } from 'firebase/database';
 // Firestore (default) : quiz_pre_installation, quiz_final, Users/{uid}/Games
 // Realtime Database : active_sessions, sessions temps réel
 const firebaseConfig = {
-  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY || 'AIzaSyDwcZ7n7ZyrFx22Iihg5esVBE5j9GbPJy8',
+  apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
   authDomain:
     import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN || 'les-ombres-du-son-483614.firebaseapp.com',
   databaseURL: 'https://les-ombres-du-son-483614-default-rtdb.europe-west1.firebasedatabase.app',
